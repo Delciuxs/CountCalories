@@ -4,13 +4,13 @@ import MacrosDataForm from "./MacrosDataForm";
 import Overview from "./Overview";
 import { useState, useEffect } from "react";
 
-export default function DataReq() {
+export default function DataReq({ details, setDetails }) {
   const [showInfo, setShowInfo] = useState(false);
   const [showBasicDataForm, setShowBasicDataForm] = useState(false);
   const [showSpecificDataForm, setShowSpecificDataForm] = useState(false);
   const [showMacrosDataForm, setShowMacrosDataForm] = useState(false);
   const [showOverview, setShowOverView] = useState(false);
-  const [details, setDetails] = useState(null);
+  // const [details, setDetails] = useState(null);
 
   useEffect(() => {
     const detailsStr = localStorage.getItem("details");

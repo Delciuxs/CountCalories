@@ -17,7 +17,7 @@ const reducer = (stateForm, action) => {
   }
 };
 
-export default function Items() {
+export default function Items({ details, setDetails }) {
   const [items, setItems] = useState([]);
   const [itemsFromSearch, setItemsFromSearch] = useState([]);
   const [showModalTrackItem, setShowModalTrackItem] = useState(false);
@@ -44,6 +44,15 @@ export default function Items() {
       setItemsTracked(itemsTracked);
     }
   }, []);
+
+  const updateDetails = (details) => {
+    setDetails(details);
+    updateLocalStorageDetails(details);
+  };
+
+  const updateLocalStorageDetails = (details) => {
+    localStorage.setItem("details", JSON.stringify(details));
+  };
 
   const handleChangeSearch = () => {
     let searchParam = searchRef.current.value.toLowerCase();
@@ -113,7 +122,10 @@ export default function Items() {
           proteinGEaten: lastProteinGEaten + proteinEaten,
           carbsGEaten: lastCarbsGEaten + carbsEaten,
         };
-        localStorage.setItem("details", JSON.stringify(newDetails));
+
+        updateDetails(newDetails);
+
+        // localStorage.setItem("details", JSON.stringify(newDetails));
       }
 
 

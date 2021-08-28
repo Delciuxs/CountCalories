@@ -46,14 +46,14 @@ export default function Overview({
                   <th>Protein </th>
                   <td>
                     <strong className="has-text-success">
-                      {parseFloat(details.proteinG) -
-                        parseFloat(details.proteinGEaten)}{" "}
-                      g
+                      {details.proteinG} g
                     </strong>
                   </td>
                   <td>
                     <span className="has-text-success">
-                      {details.proteinG} g
+                      {parseFloat(details.proteinG) -
+                        parseFloat(details.proteinGEaten)}{" "}
+                      g
                     </span>
                   </td>
                 </tr>
@@ -61,13 +61,15 @@ export default function Overview({
                   <th>Carbs </th>
                   <td>
                     <strong className="has-text-link">
-                      {parseFloat(details.carbsG) -
-                        parseFloat(details.carbsGEaten)}{" "}
-                      g
+                      {details.carbsG} g
                     </strong>
                   </td>
                   <td>
-                    <span className="has-text-link">{details.carbsG} g</span>
+                    <span className="has-text-link">
+                      {parseFloat(details.carbsG) -
+                        parseFloat(details.carbsGEaten)}{" "}
+                      g
+                    </span>
                   </td>
                 </tr>
               </tbody>

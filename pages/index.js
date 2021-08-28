@@ -1,12 +1,11 @@
 import Layout from "../components/Layout";
 import DataReq from "../components/DataReq";
 
-export default function Home() {
-
+export default function Home({ details, setDetails }) {
   return (
     <div>
       <Layout>
-        <DataReq/>
+        <DataReq details={details} setDetails={setDetails} />
       </Layout>
     </div>
   );
