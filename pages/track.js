@@ -30,8 +30,6 @@ export default function Items({ details, setDetails }) {
     inputServing: "is-info",
   });
 
-  console.log(itemsTracked);
-
   useEffect(() => {
     const itemsStr = localStorage.getItem("items");
     if (itemsStr && itemsStr.length > 0) {
@@ -44,6 +42,36 @@ export default function Items({ details, setDetails }) {
       setItemsTracked(itemsTracked);
     }
   }, []);
+
+  const deleteTrackedItem = (index) => {
+    const itemToBeDeleted = itemsTracked[index];
+    console.log(itemToBeDeleted);
+
+    const fatEatenToDelete = itemToBeDeleted.fat;
+    const proteinEatenToDelete = itemToBeDeleted.protein;
+    const carbsEatenToDelete = itemToBeDeleted.carbs;
+
+    const detailsStr = localStorage.getItem("details");
+    if (detailsStr && detailsStr.length > 0) {
+      const details = JSON.parse(detailsStr);
+      const lastFatGEaten = details.fatGEaten;
+      const lastProteinGEaten = details.proteinGEaten;
+      const lastCarbsGEaten = details.carbsGEaten;
+
+      const newDetails = {
+        ...details,
+        fatGEaten: lastFatGEaten - fatEatenToDelete,
+        proteinGEaten: lastProteinGEaten - proteinEatenToDelete,
+        carbsGEaten: lastCarbsGEaten - carbsEatenToDelete,
+      };
+
+      updateDetails(newDetails);
+    }
+
+    const itemsTrackedAux = [...itemsTracked];
+    itemsTrackedAux.splice(index, 1);
+    updateTrackedItems(itemsTrackedAux);
+  };
 
   const updateDetails = (details) => {
     setDetails(details);
@@ -124,10 +152,7 @@ export default function Items({ details, setDetails }) {
         };
 
         updateDetails(newDetails);
-
-        // localStorage.setItem("details", JSON.stringify(newDetails));
       }
-
 
       updateTrackedItems(itemsTrackedAux);
       setShowModalTrackItem(false);
@@ -218,21 +243,20 @@ export default function Items({ details, setDetails }) {
               <p>
                 How much you ate for: <strong>{itemToBeTracked.name}</strong>
               </p>
-              <form className="mt-4" autoComplete="off">
-                <label className="label">Serving (g)</label>
-                <div className="control has-icons-left">
-                  <input
-                    ref={inputServingRef}
-                    className={`input ${formInputs.inputServing}`}
-                    type="number"
-                    placeholder="Enter the serving for this item in g"
-                    name="serving"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-balance-scale"></i>
-                  </span>
-                </div>
-              </form>
+              <label className="label">Serving (g)</label>
+              <div className="control has-icons-left">
+                <input
+                  ref={inputServingRef}
+                  className={`input ${formInputs.inputServing}`}
+                  type="number"
+                  placeholder="Enter the serving for this item in g"
+                  name="serving"
+                  autoComplete="off"
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-balance-scale"></i>
+                </span>
+              </div>
             </section>
             <footer className="modal-card-foot">
               <button onClick={() => trackItem()} className="button is-success">
@@ -252,6 +276,7 @@ export default function Items({ details, setDetails }) {
         <ItemTrackedList
           itemsTracked={itemsTracked}
           clearTrackedItems={clearTrackedItems}
+          deleteTrackedItem={deleteTrackedItem}
         />
       ) : (
         <p>

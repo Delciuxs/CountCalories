@@ -10,7 +10,6 @@ export default function DataReq({ details, setDetails }) {
   const [showSpecificDataForm, setShowSpecificDataForm] = useState(false);
   const [showMacrosDataForm, setShowMacrosDataForm] = useState(false);
   const [showOverview, setShowOverView] = useState(false);
-  // const [details, setDetails] = useState(null);
 
   useEffect(() => {
     const detailsStr = localStorage.getItem("details");
@@ -154,12 +153,12 @@ export default function DataReq({ details, setDetails }) {
           <p>
             <strong>Calories Remainding: </strong>
             <span className="has-text-info">
-              {(parseFloat(details.fatG) - parseFloat(details.fatGEaten)) * 9 +
+              {((parseFloat(details.fatG) - parseFloat(details.fatGEaten)) * 9 +
                 (parseFloat(details.proteinG) -
                   parseFloat(details.proteinGEaten)) *
                   4 +
                 (parseFloat(details.carbsG) - parseFloat(details.carbsGEaten)) *
-                  4}
+                  4).toFixed(2)}
             </span>
           </p>
 

@@ -1,11 +1,15 @@
-export default function ItemTrackedList({ itemsTracked, clearTrackedItems }) {
+export default function ItemTrackedList({
+  itemsTracked,
+  clearTrackedItems,
+  deleteTrackedItem,
+}) {
   return (
     <>
-      <button className="button is-info is-widescreen" onClick={() => clearTrackedItems()}>Clear Tracked Items</button>
       <p className="mt-4">Food you have eaten: </p>
       <table className="table mt-5 is-striped is-narrow is-bordered">
         <thead>
           <tr>
+            <th></th>
             <th>Name</th>
             <th>S (g)</th>
             <th>F (g)</th>
@@ -17,16 +21,28 @@ export default function ItemTrackedList({ itemsTracked, clearTrackedItems }) {
         <tbody>
           {itemsTracked.map((trackedItem, index) => (
             <tr key={index}>
+              <td className="is-vcentered">
+                <button
+                  className="delete is-small"
+                  onClick={() => deleteTrackedItem(index)}
+                ></button>
+              </td>
               <th>{trackedItem.name}</th>
               <td>{trackedItem.serving}</td>
-              <td>{trackedItem.fat}</td>
-              <td>{trackedItem.protein}</td>
-              <td>{trackedItem.carbs}</td>
-              <td>{trackedItem.cal}</td>
+              <td>{(trackedItem.fat).toFixed(2)}</td>
+              <td>{(trackedItem.protein).toFixed(2)}</td>
+              <td>{(trackedItem.carbs).toFixed(2)}</td>
+              <td>{(trackedItem.cal).toFixed(2)}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      <button
+        className="button is-info is-widescreen"
+        onClick={() => clearTrackedItems()}
+      >
+        Start New Day
+      </button>
     </>
   );
 }

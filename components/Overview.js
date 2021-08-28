@@ -37,7 +37,7 @@ export default function Overview({
                   </td>
                   <td>
                     <span className="has-text-danger">
-                      {parseFloat(details.fatG) - parseFloat(details.fatGEaten)}{" "}
+                      {(parseFloat(details.fatG) - parseFloat(details.fatGEaten)).toFixed(2)}{" "}
                       g
                     </span>
                   </td>
@@ -51,8 +51,8 @@ export default function Overview({
                   </td>
                   <td>
                     <span className="has-text-success">
-                      {parseFloat(details.proteinG) -
-                        parseFloat(details.proteinGEaten)}{" "}
+                      {(parseFloat(details.proteinG) -
+                        parseFloat(details.proteinGEaten)).toFixed(2)}{" "}
                       g
                     </span>
                   </td>
@@ -66,8 +66,8 @@ export default function Overview({
                   </td>
                   <td>
                     <span className="has-text-link">
-                      {parseFloat(details.carbsG) -
-                        parseFloat(details.carbsGEaten)}{" "}
+                      {(parseFloat(details.carbsG) -
+                        parseFloat(details.carbsGEaten)).toFixed(2)}{" "}
                       g
                     </span>
                   </td>
