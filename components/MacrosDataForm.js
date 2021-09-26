@@ -63,10 +63,13 @@ export default function MacrosDataForm({
             <label className="label">Fat (% of the total calories)</label>
             <div className="control has-icons-left">
               <div className="select is-fullwidth is-info">
-                <select name="fat" ref={selectFatRef} defaultValue={0.3}>
-                  <option value={0.2}>20%</option>
-                  <option value={0.3}>30%</option>
-                  <option value={0.4}>40%</option>
+                <select name="fat" ref={selectFatRef} defaultValue={0.30}>
+                  <option value={0.15}>15%</option>
+                  <option value={0.20}>20%</option>
+                  <option value={0.25}>25%</option>
+                  <option value={0.30}>30%</option>
+                  <option value={0.35}>35%</option>
+                  <option value={0.40}>40%</option>
                 </select>
               </div>
               <div className="icon is-small is-left">
