@@ -21,7 +21,9 @@ export default function Items({ details, setDetails }) {
   const [items, setItems] = useState([]);
   const [itemsFromSearch, setItemsFromSearch] = useState([]);
   const [showModalTrackItem, setShowModalTrackItem] = useState(false);
+  const [showModalDeleteTrackedItem, setShowModalDeleteTrackedItem] = useState(false);
   const [itemToBeTracked, setItemToBeTracked] = useState(null);
+  const [indexItemToBeUnTracked, setIndexItemToBeUnTracked] = useState(null);
   const [itemsTracked, setItemsTracked] = useState([]);
   const searchRef = useRef();
   const inputServingRef = useRef();
@@ -43,8 +45,13 @@ export default function Items({ details, setDetails }) {
     }
   }, []);
 
-  const deleteTrackedItem = (index) => {
-    const itemToBeDeleted = itemsTracked[index];
+  const unTrackItem = (index) => {
+    setIndexItemToBeUnTracked(index);
+    setShowModalDeleteTrackedItem(true);
+  }
+
+  const deleteTrackedItem = () => {
+    const itemToBeDeleted = itemsTracked[indexItemToBeUnTracked];
     console.log(itemToBeDeleted);
 
     const fatEatenToDelete = itemToBeDeleted.fat;
@@ -69,8 +76,9 @@ export default function Items({ details, setDetails }) {
     }
 
     const itemsTrackedAux = [...itemsTracked];
-    itemsTrackedAux.splice(index, 1);
+    itemsTrackedAux.splice(indexItemToBeUnTracked, 1);
     updateTrackedItems(itemsTrackedAux);
+    setShowModalDeleteTrackedItem(false);
   };
 
   const updateDetails = (details) => {
@@ -272,11 +280,42 @@ export default function Items({ details, setDetails }) {
           </div>
         </div>
       )}
+      {showModalDeleteTrackedItem && (
+        <div className={`modal ${showModalDeleteTrackedItem && "is-active"}`}>
+          <div className="modal-background"></div>
+          <div className="modal-card">
+            <header className="modal-card-head">
+              <p className="modal-card-title">Delete Tracked Item</p>
+              <button
+                onClick={() => setShowModalDeleteTrackedItem(false)}
+                className="delete"
+                aria-label="close"
+              ></button>
+            </header>
+            <section className="modal-card-body">
+              <p>
+                Do you want to untrack: <strong>{itemsTracked[indexItemToBeUnTracked].name}</strong>
+              </p>
+            </section>
+            <footer className="modal-card-foot">
+              <button onClick={() => deleteTrackedItem()} className="button is-success">
+                Untrack
+              </button>
+              <button
+                onClick={() => setShowModalDeleteTrackedItem(false)}
+                className="button"
+              >
+                Cancel
+              </button>
+            </footer>
+          </div>
+        </div>
+      )}
       {itemsTracked.length !== 0 ? (
         <ItemTrackedList
           itemsTracked={itemsTracked}
           clearTrackedItems={clearTrackedItems}
-          deleteTrackedItem={deleteTrackedItem}
+          unTrackItem={unTrackItem}
         />
       ) : (
         <p>

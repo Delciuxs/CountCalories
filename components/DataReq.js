@@ -74,9 +74,9 @@ export default function DataReq({ details, setDetails }) {
           </p>
 
           {showInfo && (
-            <div class="notification is-info is-light">
+            <div className="notification is-info is-light">
               <button
-                class="delete"
+                className="delete"
                 onClick={() => setShowInfo(false)}
               ></button>
               This app is using the <strong>Mifflin St. Jeor Equation</strong>{" "}
@@ -169,7 +169,6 @@ export default function DataReq({ details, setDetails }) {
               setShowBasicDataForm={setShowBasicDataForm}
               setShowSpecificDataForm={setShowSpecificDataForm}
               setShowMacrosDataForm={setShowMacrosDataForm}
-              setShowOverView={setShowOverView}
             />
           </section>
         </>

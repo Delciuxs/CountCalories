@@ -1,7 +1,7 @@
 export default function ItemTrackedList({
   itemsTracked,
   clearTrackedItems,
-  deleteTrackedItem,
+  unTrackItem,
 }) {
   return (
     <>
@@ -24,7 +24,7 @@ export default function ItemTrackedList({
               <td className="is-vcentered">
                 <button
                   className="delete is-small"
-                  onClick={() => deleteTrackedItem(index)}
+                  onClick={() => unTrackItem(index)}
                 ></button>
               </td>
               <th>{trackedItem.name}</th>
