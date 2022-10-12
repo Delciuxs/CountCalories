@@ -64,6 +64,11 @@ export default function Items() {
     });
   };
 
+  const copyInventoryToClipBoard = () => {
+    console.log("copied to clip board");
+    navigator.clipboard.writeText(localStorage.getItem("items"));
+  }
+
   const deleteItem = (index) => {
     const itemsAux = [...items];
     itemsAux.splice(index, 1);
@@ -130,9 +135,18 @@ export default function Items() {
         <section className="container is-widescreen mt-4">
           <button
             onClick={openModalRegisterItem}
-            className="button is-link is-fullwidth"
+            className="button is-link is-fullwidth mb-1"
           >
             Register Item
+          </button>
+          <button
+            onClick={copyInventoryToClipBoard}
+            className="button is-dark is-fullwidth"
+          >
+            <span className="icon is-small is-left">
+            <i class="fas fa-clipboard mr-4"></i>
+            </span>
+            Copy Inventory
           </button>
           {showModalNewItem && (
             <div className={`modal ${showModalNewItem && "is-active"}`}>
