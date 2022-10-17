@@ -25,6 +25,7 @@ const reducer = (stateForm, action) => {
 export default function Items() {
   const [items, setItems] = useState([]);
   const [showModalNewItem, setShowModalNewItem] = useState(false);
+  const [showSuccessInventoryCopied, setShowSuccessInventoryCopied] = useState(false);
   const inputNameRef = useRef();
   const inputServingRef = useRef();
   const inputFatRef = useRef();
@@ -66,6 +67,8 @@ export default function Items() {
 
   const copyInventoryToClipBoard = () => {
     console.log("copied to clip board");
+    setShowSuccessInventoryCopied(true);
+    setTimeout(() => setShowSuccessInventoryCopied(false), 1500);
     navigator.clipboard.writeText(localStorage.getItem("items"));
   }
 
@@ -132,6 +135,12 @@ export default function Items() {
     <div>
       <Layout>
         <h1 className="title is-2">Inventory</h1>
+        {showSuccessInventoryCopied && (
+            <div class="notification is-success">
+            <button class="delete" onClick={() => setShowSuccessInventoryCopied(false)}></button>
+            Copied to clipboard
+          </div>
+          )}
         <section className="container is-widescreen mt-4">
           <button
             onClick={openModalRegisterItem}
@@ -144,7 +153,7 @@ export default function Items() {
             className="button is-dark is-fullwidth"
           >
             <span className="icon is-small is-left">
-            <i class="fas fa-clipboard mr-4"></i>
+            <i className="fas fa-clipboard mr-4"></i>
             </span>
             Copy Inventory
           </button>
