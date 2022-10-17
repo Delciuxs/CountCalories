@@ -25,7 +25,10 @@ const reducer = (stateForm, action) => {
 export default function Items() {
   const [items, setItems] = useState([]);
   const [showModalNewItem, setShowModalNewItem] = useState(false);
+  const [showModalLoadInventory, setShowModalLoadInventory] = useState(false);
   const [showSuccessInventoryCopied, setShowSuccessInventoryCopied] = useState(false);
+  const [showHelpInventory, setShowHelpInventory] = useState(false);
+  const inputInventoryRef = useRef();
   const inputNameRef = useRef();
   const inputServingRef = useRef();
   const inputFatRef = useRef();
@@ -41,6 +44,24 @@ export default function Items() {
     inputCarbs: "is-info",
     inputCal: "is-info",
   });
+
+  const inventoryExample = [{
+      name: "oats (raw)",
+      serving: "100",
+      fat: "5.50",
+      protein: "12.60",
+      carbs: "58.80",
+      cal: "335.50"
+    },
+    {
+      name: "almonds",
+      serving: "10",
+      fat: "5.20",
+      protein: "2.10",
+      carbs: "1.80",
+      cal: "62.00"
+    },
+  ]
 
   useEffect(() => {
     const itemsStr = localStorage.getItem("items");
@@ -66,10 +87,19 @@ export default function Items() {
   };
 
   const copyInventoryToClipBoard = () => {
-    console.log("copied to clip board");
     setShowSuccessInventoryCopied(true);
     setTimeout(() => setShowSuccessInventoryCopied(false), 1500);
     navigator.clipboard.writeText(localStorage.getItem("items"));
+  };
+
+  const loadInventory = () => {
+    console.log("load inventory");
+    setShowModalLoadInventory(true);
+  };
+
+  const saveInventory = () => {
+    console.log("save inventory");
+    setShowModalLoadInventory(false);
   }
 
   const deleteItem = (index) => {
@@ -136,27 +166,127 @@ export default function Items() {
       <Layout>
         <h1 className="title is-2">Inventory</h1>
         {showSuccessInventoryCopied && (
-            <div class="notification is-success">
+          <div class="notification is-success is-light">
             <button class="delete" onClick={() => setShowSuccessInventoryCopied(false)}></button>
             Copied to clipboard
           </div>
-          )}
+        )}
         <section className="container is-widescreen mt-4">
           <button
-            onClick={openModalRegisterItem}
-            className="button is-link is-fullwidth mb-1"
-          >
-            Register Item
+              onClick={loadInventory}
+              className="button is-success is-fullwidth mb-1"
+            >
+            <span className="icon is-small is-left">
+            <i className="fas fa-cloud-upload-alt mr-4"></i>
+            </span>
+            Load Inventory
           </button>
           <button
             onClick={copyInventoryToClipBoard}
-            className="button is-dark is-fullwidth"
+            className="button is-dark is-fullwidth mb-1"
           >
             <span className="icon is-small is-left">
             <i className="fas fa-clipboard mr-4"></i>
             </span>
             Copy Inventory
           </button>
+          <button
+            onClick={openModalRegisterItem}
+            className="button is-link is-fullwidth"
+          >
+            <span className="icon is-small is-left">
+            <i className="fas fa-pencil-alt mr-4"></i>
+            </span>
+            Add Item
+          </button>
+          {showModalLoadInventory && (
+            <div className={`modal ${showModalLoadInventory && "is-active"}`}>
+              <div className="modal-background"></div>
+              <div className="modal-card">
+                <header className="modal-card-head">
+                  <p className="modal-card-title">Load Inventory</p>
+                  <button
+                    onClick={() => setShowModalLoadInventory(false)}
+                    className="delete"
+                    aria-label="close"
+                  ></button>
+                </header>
+                <section className="modal-card-body">
+                  <form autoComplete="off">
+                    <div className="field">
+                      <label className="label">
+                        Inventory in json format
+                        <span className="has-text-info ml-2" onClick={() => setShowHelpInventory(true)}>
+                          <i className="fas fa-info-circle"></i>
+                        </span>
+                      </label>
+                      {showHelpInventory && (
+                        <div class="notification is-info is-light">
+                          <button class="delete" onClick={() => setShowHelpInventory(false)}></button>
+                          <div>Example on how the json must look like for the following inventory:</div>
+                          <div>
+                            <table className="table mt-5 is-striped is-narrow is-bordered">
+                              <thead>
+                                <tr>
+                                  <th>name</th>
+                                  <th>serving</th>
+                                  <th>fat</th>
+                                  <th>protein</th>
+                                  <th>carbs</th>
+                                  <th>cal</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {inventoryExample.map((item, index) => (
+                                <tr key={index}>
+                                  <th>{item.name}</th>
+                                  <td>{item.serving}</td>
+                                  <td>{item.fat}</td>
+                                  <td>{item.protein}</td>
+                                  <td>{item.carbs}</td>
+                                  <td>{item.cal}</td>
+                                </tr>
+                              ))}
+                              </tbody>
+                            </table>
+                          </div>
+                          <div className="mt-4">
+                            {JSON.stringify(inventoryExample, null, '\t')}
+                          </div>
+                        </div>
+                      )}
+                      <div className="control has-icons-left">
+                        <input
+                          ref={inputInventoryRef}
+                          className={`input ${formInputs.inputName}`}
+                          type="text"
+                          placeholder="json"
+                          name="inventory"
+                        />
+                        <span className="icon is-small is-left">
+                          <i className="fas fa-scroll"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </form>
+                </section>
+                <footer className="modal-card-foot">
+                  <button
+                    onClick={() => saveInventory()}
+                    className="button is-success"
+                  >
+                    Save Inventory
+                  </button>
+                  <button
+                    onClick={() => setShowModalLoadInventory(false)}
+                    className="button"
+                  >
+                    Cancel
+                  </button>
+                </footer>
+              </div>
+            </div>
+          )}
           {showModalNewItem && (
             <div className={`modal ${showModalNewItem && "is-active"}`}>
               <div className="modal-background"></div>
