@@ -28,6 +28,7 @@ export default function Items() {
   const [showModalLoadInventory, setShowModalLoadInventory] = useState(false);
   const [showSuccessInventoryCopied, setShowSuccessInventoryCopied] = useState(false);
   const [showHelpInventory, setShowHelpInventory] = useState(false);
+  const [jsonInputColor, setJsonInputColor] = useState("is-info");
   const inputInventoryRef = useRef();
   const inputNameRef = useRef();
   const inputServingRef = useRef();
@@ -92,14 +93,14 @@ export default function Items() {
     navigator.clipboard.writeText(localStorage.getItem("items"));
   };
 
-  const loadInventory = () => {
-    console.log("load inventory");
-    setShowModalLoadInventory(true);
-  };
-
   const saveInventory = () => {
-    console.log("save inventory");
-    setShowModalLoadInventory(false);
+    try {
+      const inventoryObj = JSON.parse(inputInventoryRef.current.value);
+      updateItems(inventoryObj);
+      setShowModalLoadInventory(false);
+    } catch {
+      setJsonInputColor('is-danger');
+    }
   }
 
   const deleteItem = (index) => {
@@ -173,7 +174,7 @@ export default function Items() {
         )}
         <section className="container is-widescreen mt-4">
           <button
-              onClick={loadInventory}
+              onClick={() => setShowModalLoadInventory(true)}
               className="button is-success is-fullwidth mb-1"
             >
             <span className="icon is-small is-left">
@@ -253,12 +254,28 @@ export default function Items() {
                           <div className="mt-4">
                             {JSON.stringify(inventoryExample, null, '\t')}
                           </div>
+                          <div className="mt-4">
+                            The json is an array of objects with the following fields:
+                          </div>
+                          <div className="mt-4">
+                            <ul>
+                              <li><i>name</i></li>
+                              <li><i>serving</i></li>
+                              <li><i>fat</i></li>
+                              <li><i>protein</i></li>
+                              <li><i>carbs</i></li>
+                              <li><i>cal</i></li>
+                            </ul> 
+                          </div>
+                          <div className="mt-4">
+                            <strong>Note:</strong> The value of the fields are string type!
+                          </div>
                         </div>
                       )}
                       <div className="control has-icons-left">
                         <input
                           ref={inputInventoryRef}
-                          className={`input ${formInputs.inputName}`}
+                          className={`input ${jsonInputColor}`}
                           type="text"
                           placeholder="json"
                           name="inventory"
