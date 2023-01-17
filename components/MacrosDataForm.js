@@ -65,8 +65,7 @@ export default function MacrosDataForm({
         dispatchFormInputs({
           type: ACTIONS.CHECK_INPUT_VALUES,
           payload: {
-            inputCustomProteinG:
-            customProteinG !== "" ? "is-success" : "is-danger",
+            inputCustomProteinG: "is-danger",
           },
         });
         return;
