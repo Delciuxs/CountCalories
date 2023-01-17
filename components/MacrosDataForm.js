@@ -177,6 +177,7 @@ export default function MacrosDataForm({
                   <option value={0.30}>30%</option>
                   <option value={0.35}>35%</option>
                   <option value={0.40}>40%</option>
+                  <option value={0.45}>45%</option>
                 </select>
               </div>
               <div className="icon is-small is-left">
